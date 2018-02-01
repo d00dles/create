@@ -1,82 +1,8 @@
 #!/bin/sh
-# unix-privesc-check - Checks Unix system for simple privilege escalations
-# Copyright (C) 2008 pentestmonkey@pentestmonkey.net
-#
-#
-# License
-# -------
-# This tool may be used for legal purposes only.  Users take full responsibility
-# for any actions performed using this tool.  The author accepts no liability
-# for damage caused by this tool.  If you do not accept these condition then
-# you are prohibited from using this tool.
-#
-# In all other respects the GPL version 2 applies:
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License version 2 as
-# published by the Free Software Foundation.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-#
-# You are encouraged to send comments, improvements or suggestions to
-# me at pentestmonkey@pentestmonkey.net
-#
-#
-# Description
-# -----------
-# Auditing tool to check for weak file permissions and other problems that
-# may allow local attackers to escalate privileges.
-# 
-# It is intended to be run by security auditors and pentetration testers 
-# against systems they have been engaged to assess, and also by system 
-# admnisitrators who want to check for "obvious" misconfigurations.  It 
-# can even be run as a cron job so you can check regularly for misconfigurations 
-# that might be introduced.
-#
-# Ensure that you have the appropriate legal permission before running it
-# someone else's system.
-#
-# TODO List
-# ---------
-# There's still plenty that this script doesn't do...
-# - Doesn't work for shell scripts!  These appear as "/bin/sh my.sh" in the process listing. 
-#   This script only checks the perms of /bin/sh.  Not what we're after.  :-(
-# - Similarly for perl scripts.  Probably python, etc. too.
-# - Check /proc/pid/cmdline for absolute path names.  Check security of these (e.g. /etc/snmp/snmpd.conf)
-# - Check everything in root's path - how to find root's path?
-# - /proc/pid/maps, smaps are readable and lists some shared objects.  We should check these.
-# - /proc/pid/fd contain symlinks to all open files (but you can't see other people FDs)
-# - check for trust relationships in /etc/hosts.equiv
-# - NFS imports / exports / automounter
-# - Insecure stuff in /etc/fstab (e.g. allowing users to mount file systems)
-# - Inspecting people's PATH.  tricky.  maybe read from /proc/pid/environ, .bashrc, /etc/profile, .bash_profile
-# - Check if /etc/init.d/* scripts are readable.  Advise user to audit them if they are.
-# - .exrc?
-# - X11 trusts, apache passwd files, mysql trusts?
-# - Daemons configured in an insecure way: tftpd, sadmind, rexd
-# - World writable dirs aren't as bad if the sticky bit is set.  Check for this before reporting vulns.
-# - Maybe do a strings of binaries (and their .so's?)
-# - Do a better job of parsing cron lines - search for full paths
-# - Maybe LDPATHs from /etc/env.d
-# - Check if ldd, ld.so.conf changes have broken this script on non-linux systems.
-# - Avoid check certain paths e.g. /-/_ clearly isn't a real directory.
-# - create some sort of readable report
-# - indicate when it's likely a result is a false positive and when it's not.
-# - Skip pseudo processes e.g. [usb-storage]
-# - File permission on kernel modules
-# - Replace calls to echo with a my_echo func.  Should be passed a string and an "importance" value:
-#   - my_echo 1 "This is important and should always be printed out"
-#   - my_echo 2 "This is less important and should only be printed in verbose mode"
-# - We check some files / dirs multiple times.  Slow.  Can we implement a cache?
-# - grep for PRIVATE KEY to find private ssh and ssl keys.  Where to grep?
-# - check SGID programs
+
+###
+###pentestmonkey@pentestmonkey.net is the creator here. Grts to him/her and their team
+###
 
 VERSION="1.4"
 HOME_DIR_FILES=".netrc .ssh/id_rsa .ssh/id_dsa .rhosts .shosts .my.cnf .ssh/authorized_keys .bash_history .sh_history .forward"
