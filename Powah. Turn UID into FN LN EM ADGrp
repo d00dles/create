@@ -1,0 +1,5 @@
+Get-Content C:\PS\Input.csv | ForEach {
+ 
+    Get-ADUser -Filter "SamAccountName -eq '$_'" -Properties * | Select mail, GivenName, Surname, @{n="memberof";e={[string]$_.memberof}}
+} | 
+Export-Csv 'C:\PS\Output.csv' -NoType
